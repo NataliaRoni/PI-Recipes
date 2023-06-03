@@ -10,12 +10,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      createInDb: {
-        // createinDb se utiliza para buscar por ID únicamente las dietas creadas desde nuestra base de datos.
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: true,
-      },
     },
     {
       timestamps: false,

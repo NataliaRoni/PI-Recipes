@@ -2,13 +2,11 @@ const { Router } = require("express");
 const { RecipeController } = require("../controllers/RecipeController");
 const { Recipe, Diets } = require("../db");
 const { DietsController } = require("../controllers/DietsController");
-// Importar todos los routers;
-// Ejemplo: const authRouter = require('./auth.js');
 
 const router = Router();
 
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
+//* GET | /recipes/:idRecipe
+
 router.get("/recipes/:idRecipe", async (req, res) => {
   // Se trae el id de la receta por params:
   const { idRecipe } = req.params;
@@ -38,9 +36,11 @@ router.get("/recipes/:idRecipe", async (req, res) => {
 
     // Si ocurre algún error durante el procesamiento, se envía un error 500:
   } catch (error) {
-    res.status(500).send("Internal server error");
+    res.status(500).json({ error: error.message });
   }
 });
+
+//*  GET | /recipes/name?="..."
 
 router.get("/recipes", async (req, res) => {
   // Se trae el name que le paso en la URL, por ejemplo ?name=algo:
@@ -71,13 +71,15 @@ router.get("/recipes", async (req, res) => {
 
     // Si ocurre algún error durante el procesamiento, se envía un error 500:
   } catch (error) {
-    res.status(500).send("Internal server error");
+    res.status(500).json({ error: error.message });
   }
 });
 
+// * POST | /recipes
+
 router.post("/recipes", async (req, res) => {
   // Se recibe por body los campos con la info para crear una nueva receta:
-  let { name, image, summary, healthScore, steps, createdInDB, diets } =
+  let { name, image, summary, healthScore, steps, createdInDb, diets } =
     req.body;
 
   try {
@@ -88,7 +90,7 @@ router.post("/recipes", async (req, res) => {
       summary,
       healthScore,
       steps,
-      createdInDB,
+      createdInDb,
     });
 
     // Se busca la dieta que coincida con la que recibimos por body
@@ -99,17 +101,25 @@ router.post("/recipes", async (req, res) => {
     });
 
     // Se usa el método addDiet creado por sequelize para asociar la dieta a la receta creada:
-    await recipeCreated.addDiet(dietDb);
+    recipeCreated.addDiet(dietDb);
 
     //Se envía un mensaje confirmando que la dieta fue creada exitosamente:
-    res.status(200).send("Recipe created successfully");
+    res.status(200).json(recipeCreated);
 
     // Si ocurre algún error durante el procesamiento, se envía un error 500:
   } catch (error) {
-    res.status(500).send("Internal server error");
+    res.status(500).json({ error: error.message });
   }
 });
 
-router.get("/diets", DietsController);
+//* GET | /diets
+
+router.get("/diets", async (req, res) => {
+  try {
+    await DietsController(req, res);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 module.exports = router;
