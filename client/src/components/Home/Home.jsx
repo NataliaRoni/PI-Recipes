@@ -6,10 +6,12 @@ import {
   filterByDiets,
   filterMyRecipes,
   orderByName,
+  orderByHealthScore,
 } from "../../actions/actions";
 import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
+import NavBar from "../NavBar/NavBar";
 
 export default function Home() {
   // Es lo mismo que hacer mapdispatchtoprops para despachar:
@@ -79,10 +81,17 @@ export default function Home() {
     setOrder(`Order ${e.target.value}`);
   }
 
+  function handleOrderByHealth(e) {
+    e.preventDefault();
+    dispatch(orderByHealthScore(e.target.value));
+    setOrder(`Order ${e.target.value}`);
+  }
+
   return (
     <div>
       <Link to="/recipe">Crear receta</Link>
       <h1>Esta es la pagina principal</h1>
+      <NavBar />
       <button
         onClick={(e) => {
           handleClick(e);
@@ -102,7 +111,6 @@ export default function Home() {
         <option value="primal">Primal</option>
         <option value="paleolithic">Paleolithic</option>
         <option value="ketogenic">Ketogenic</option>
-        <option value="other">Other</option>
       </select>
       <select onChange={(e) => handleOrderByName(e)}>
         <option value="A-Z">A-Z</option>
@@ -112,6 +120,10 @@ export default function Home() {
         <option value="all">All</option>
         <option value="api">API Recipes</option>
         <option value="my recipes">My Recipes</option>
+      </select>
+      <select onChange={(e) => handleOrderByHealth(e)}>
+        <option value="asc healthscore">Ascending HealthScore</option>
+        <option value="desc healthscore">Descending HealthScore</option>
       </select>
       {currentRecipes?.map((r) => {
         return (
@@ -132,6 +144,7 @@ export default function Home() {
         recipesPerPage={recipesPerPage}
         allRecipes={allRecipes.length}
         paginate={paginate}
+        currentPage={currentPage}
       />
     </div>
   );

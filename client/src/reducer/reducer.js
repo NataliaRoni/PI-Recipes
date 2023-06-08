@@ -1,6 +1,7 @@
 const initialState = {
   recipes: [],
   allRecipes: [],
+  diets: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -11,6 +12,20 @@ function rootReducer(state = initialState, action) {
         recipes: action.payload,
         // Guarda también todas las recetas acá para el filtro:
         allRecipes: action.payload,
+      };
+    case "GET_RECIPES_BY_NAME":
+      return {
+        ...state,
+        recipes: action.payload,
+      };
+    case "POST_RECIPES":
+      return {
+        ...state,
+      };
+    case "GET_DIETS":
+      return {
+        ...state,
+        diets: action.payload,
       };
     case "FILTER_BY_DIETS":
       // La lógica del reducer siempre va antes del return
@@ -62,6 +77,31 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         recipes: order,
+      };
+    case "ORDER_BY_HEALTHSCORE":
+      const healthOrder =
+        action.payload === "asc healthscore"
+          ? state.recipes.sort(function (a, b) {
+              if (a.healthScore > b.healthScore) {
+                return 1;
+              }
+              if (b.healthScore > a.healthScore) {
+                return -1;
+              }
+              return 0;
+            })
+          : state.recipes.sort(function (a, b) {
+              if (a.healthScore > b.healthScore) {
+                return -1;
+              }
+              if (b.healthScore > a.healthScore) {
+                return 1;
+              }
+              return 0;
+            });
+      return {
+        ...state,
+        recipes: healthOrder,
       };
     default:
       return state;

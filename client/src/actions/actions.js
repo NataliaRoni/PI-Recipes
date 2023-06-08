@@ -1,12 +1,56 @@
 import axios from "axios";
 
+//* TRAER INFORMACIÓN DEL BACK:
+
 export function getRecipes() {
   return async function (dispatch) {
-    // Conexión entre el front y el back para traer las recetas:
-    let json = await axios("http://localhost:3001/recipes");
-    return dispatch({ type: "GET_RECIPES", payload: json.data });
+    try {
+      // Conexión entre el front y el back para traer las recetas:
+      let json = await axios("http://localhost:3001/recipes");
+      return dispatch({ type: "GET_RECIPES", payload: json.data });
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
+
+export function getRecipesByName(name) {
+  return async function (dispatch) {
+    try {
+      // Conexión entre el front y el back para traer las recetas por nombre:
+      let json = await axios("http://localhost:3001/recipes?name=" + name);
+      return dispatch({ type: "GET_RECIPES_BY_NAME", payload: json.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function postRecipes(payload) {
+  return async function (dispatch) {
+    try {
+      // Conexión entre el front y el back para postear la nueva receta:
+      let response = await axios.post("http://localhost:3001/recipes", payload);
+      return response;
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getDiets() {
+  return async function (dispatch) {
+    try {
+      // Conexión entre el front y el back para traer las dietas:
+      let json = await axios("http://localhost:3001/diets");
+      return dispatch({ type: "GET_DIETS", payload: json.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+//* FILTROS Y ORDENAMIENTO:
 
 export function filterByDiets(payload) {
   return {
@@ -25,6 +69,13 @@ export function filterMyRecipes(payload) {
 export function orderByName(payload) {
   return {
     type: "ORDER_BY_NAME",
+    payload,
+  };
+}
+
+export function orderByHealthScore(payload) {
+  return {
+    type: "ORDER_BY_HEALTHSCORE",
     payload,
   };
 }
