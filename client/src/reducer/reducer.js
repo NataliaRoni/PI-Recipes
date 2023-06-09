@@ -32,7 +32,7 @@ function rootReducer(state = initialState, action) {
       // Se hace un filtro que traiga las recetas que contengan la dieta del filtro y se hace con allRecipes para que permita filtrar varias veces:
       const allRecipes = state.allRecipes;
       const dietsFilter =
-        action.payload === "all diets"
+        action.payload === "all"
           ? allRecipes
           : allRecipes.filter((e) => e.diets.some((d) => d === action.payload));
       return {

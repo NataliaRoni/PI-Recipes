@@ -17,14 +17,22 @@ export default function Home() {
   // Es lo mismo que hacer mapdispatchtoprops para despachar:
   const dispatch = useDispatch();
 
-  //Es lo mismo que hacer mapstatetoprops para traer las recetas:
+  // Es lo mismo que hacer mapstatetoprops para traer las recetas:
   const allRecipes = useSelector((state) => state.recipes);
 
-  //Estado para traer las dietas:
+  // Estado para traer las dietas:
   const allDiets = useSelector((state) => state.diets);
 
-  //Estado para setear el orden cuando se haga el filtro:
+  // Estado para setear el orden cuando se haga el filtro:
   const [order, setOrder] = useState("");
+
+  // Estado para resetear los filtros:
+  const [selectedValues, setSelectedValues] = useState({
+    filterByDiets: "all",
+    filterMyRecipes: "all",
+    orderByHealthScore: "all",
+    orderByName: "all",
+  });
 
   //* PAGINADO
 
@@ -60,6 +68,13 @@ export default function Home() {
   function handleClick(e) {
     e.preventDefault();
     dispatch(getRecipes());
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      filterByDiets: "all",
+      filterMyRecipes: "all",
+      orderByHealthScore: "all",
+      orderByName: "all",
+    }));
   }
 
   //* FILTROS
@@ -67,10 +82,24 @@ export default function Home() {
   function handleFilterByDiets(e) {
     //Despacha a la action el valor del payload dependiendo de cada option.
     dispatch(filterByDiets(e.target.value));
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      filterByDiets: e.target.value,
+      filterMyRecipes: "all",
+      orderByHealthScore: "all",
+      orderByName: "all",
+    }));
   }
 
   function handleFilterMyRecipes(e) {
     dispatch(filterMyRecipes(e.target.value));
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      filterMyRecipes: e.target.value,
+      filterByDiets: "all",
+      orderByHealthScore: "all",
+      orderByName: "all",
+    }));
   }
 
   function handleOrderByName(e) {
@@ -79,13 +108,29 @@ export default function Home() {
     setCurrentPage(1);
     //Seteo el ordenamiento:
     setOrder(`Order ${e.target.value}`);
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      orderByName: e.target.value,
+      filterByDiets: "all",
+      filterMyRecipes: "all",
+      orderByHealthScore: "all",
+    }));
   }
 
   function handleOrderByHealth(e) {
     e.preventDefault();
     dispatch(orderByHealthScore(e.target.value));
     setOrder(`Order ${e.target.value}`);
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      orderByHealthScore: e.target.value,
+      filterByDiets: "all",
+      filterMyRecipes: "all",
+      orderByName: "all",
+    }));
   }
+
+  //* RENDERIZADO
 
   return (
     <div>
@@ -99,8 +144,11 @@ export default function Home() {
       >
         Volver a cargar todas las recetas
       </button>
-      <select onChange={(e) => handleFilterByDiets(e)}>
-        <option value="all diets">All diets</option>
+      <select
+        value={selectedValues.filterByDiets}
+        onChange={(e) => handleFilterByDiets(e)}
+      >
+        <option value="all">All diets</option>
         <option value="dairy free">Dairy free</option>
         <option value="gluten free">Gluten free</option>
         <option value="lacto ovo vegetarian">Lacto ovo vegetarian</option>
@@ -112,16 +160,27 @@ export default function Home() {
         <option value="paleolithic">Paleolithic</option>
         <option value="ketogenic">Ketogenic</option>
       </select>
-      <select onChange={(e) => handleOrderByName(e)}>
+      <select
+        value={selectedValues.orderByName}
+        onChange={(e) => handleOrderByName(e)}
+      >
+        <option value="all">Alphabetic Order</option>
         <option value="A-Z">A-Z</option>
         <option value="Z-A">Z-A</option>
       </select>
-      <select onChange={(e) => handleFilterMyRecipes(e)}>
-        <option value="all">All</option>
+      <select
+        value={selectedValues.filterMyRecipes}
+        onChange={(e) => handleFilterMyRecipes(e)}
+      >
+        <option value="all">All Recipes</option>
         <option value="api">API Recipes</option>
         <option value="my recipes">My Recipes</option>
       </select>
-      <select onChange={(e) => handleOrderByHealth(e)}>
+      <select
+        value={selectedValues.orderByHealthScore}
+        onChange={(e) => handleOrderByHealth(e)}
+      >
+        <option value="all">HealthScore Order</option>
         <option value="asc healthscore">Ascending HealthScore</option>
         <option value="desc healthscore">Descending HealthScore</option>
       </select>
