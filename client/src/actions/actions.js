@@ -19,7 +19,20 @@ export function getRecipesByName(name) {
     try {
       // Conexión entre el front y el back para traer las recetas por nombre:
       let json = await axios("http://localhost:3001/recipes?name=" + name);
+      console.log(json.data);
       return dispatch({ type: "GET_RECIPES_BY_NAME", payload: json.data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
+export function getRecipesDetail(id) {
+  return async function (dispatch) {
+    try {
+      // Conexión entre el front y el back para traer el detail de las recetas por id:
+      let json = await axios("http://localhost:3001/recipes/" + id);
+      return dispatch({ type: "GET_RECIPES_DETAIL", payload: json.data });
     } catch (error) {
       console.log(error);
     }

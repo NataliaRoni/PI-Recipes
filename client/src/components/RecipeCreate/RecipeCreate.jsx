@@ -4,6 +4,28 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDiets, postRecipes } from "../../actions/actions";
 
+function validation(input) {
+  let errors = {};
+  if (!input.name) {
+    errors.name = "Add a name to your recipe";
+  }
+  if (!input.summary) {
+    errors.summary = "Add a summary to your recipe";
+  }
+  if (!input.healthScore) {
+    errors.healthScore = "Add a health score to your recipe";
+  } else if (input.healthScore < 1 || input.healthScore > 100) {
+    errors.healthScore = "Health score must be a number between 1 and 100";
+  }
+  if (!input.steps) {
+    errors.steps = "Add steps to your recipe";
+  }
+  if (!input.diets.length) {
+    errors.diets = "You must select at least one diet type";
+  }
+  return errors;
+}
+
 export default function RecipeCreate() {
   const dispatch = useDispatch();
 
@@ -23,6 +45,9 @@ export default function RecipeCreate() {
     diets: [],
   });
 
+  // Se crea un estado para setear las validaciones:
+  const [errors, setErrors] = useState([]);
+
   useEffect(() => {
     dispatch(getDiets);
   }, []);
@@ -30,20 +55,29 @@ export default function RecipeCreate() {
   //* HANDLERS:
 
   // Guarda lo que se escribe en el input y hace que ese value sea el name, o sea va llenando el estado input:
+  // Además, setea el estado errors para las validaciones:
   function handleChange(e) {
     e.preventDefault();
     setInput({ ...input, [e.target.name]: e.target.value });
-    console.log(input);
+    setErrors(
+      validation({
+        ...input,
+        [e.target.name]: e.target.value,
+      })
+    );
   }
 
+  // Hace updatedDiets guarde las dietas que se seleccionan con el checkbox dentro de un array y setea el estado errors:
   function handleCheck(e) {
     const selectedDiet = e.target.value;
     const updatedDiets = input.diets.includes(selectedDiet)
       ? input.diets.filter((diet) => diet !== selectedDiet)
       : [...input.diets, selectedDiet];
     setInput({ ...input, diets: updatedDiets });
+    setErrors(validation({ ...input, diets: updatedDiets }));
   }
 
+  // Postea la receta creada y nos devuelve a home:
   function handleSubmit(e) {
     e.preventDefault();
     console.log(input);
@@ -60,6 +94,12 @@ export default function RecipeCreate() {
     history.push("/home");
   }
 
+  //* VALIDACIÓN
+  // La variable disabled se establecerá en true si hay errores de validación presentes o si el campo name está vacío.
+  const disabled = Object.keys(errors).length || !input.name;
+
+  //* RENDERIZADO
+
   return (
     <div>
       <Link to="/home">
@@ -75,13 +115,18 @@ export default function RecipeCreate() {
             name="name"
             onChange={(e) => handleChange(e)}
           />
+          {errors.name && <p className="error">{errors.name}</p>}
+        </div>
+        <div>
           <label>Image: </label>
           <input
-            type="text"
+            type="url"
             value={input.image}
             name="image"
             onChange={(e) => handleChange(e)}
           />
+        </div>
+        <div>
           <label>Summary: </label>
           <input
             type="text"
@@ -89,6 +134,9 @@ export default function RecipeCreate() {
             name="summary"
             onChange={(e) => handleChange(e)}
           />
+          {errors.summary && <p className="error">{errors.summary}</p>}
+        </div>
+        <div>
           <label>Health Score: </label>
           <input
             type="number"
@@ -96,6 +144,9 @@ export default function RecipeCreate() {
             name="healthScore"
             onChange={(e) => handleChange(e)}
           />
+          {errors.healthScore && <p className="error">{errors.healthScore}</p>}
+        </div>
+        <div>
           <label>Steps: </label>
           <textarea
             type="text"
@@ -103,6 +154,9 @@ export default function RecipeCreate() {
             name="steps"
             onChange={(e) => handleChange(e)}
           />
+          {errors.steps && <p className="error">{errors.steps}</p>}
+        </div>
+        <div>
           <label>Diets: </label>
           <label>
             <input
@@ -194,8 +248,11 @@ export default function RecipeCreate() {
             />
             Ketogenic
           </label>
+          {errors.diets && <p className="error">{errors.diets}</p>}
         </div>
-        <button type="submit">Create my recipe</button>
+        <button disabled={disabled} type="submit">
+          Create my recipe
+        </button>
       </form>
     </div>
   );

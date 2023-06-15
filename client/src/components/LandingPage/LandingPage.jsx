@@ -1,13 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import logo from "../../utils/images/logolanding.png";
+import Styles from "./LandingPage.module.css";
 
 export default function LandingPage() {
   return (
     <div>
-      <h1>Welcome</h1>
-      <Link to="/home">
-        <button>Click</button>
-      </Link>
+      <img className={Styles.img} src={logo}></img>
+      <div class="container">
+        <Link to="/home">
+          <button className={Styles.button}>Let's cook!</button>
+        </Link>
+      </div>
     </div>
   );
 }

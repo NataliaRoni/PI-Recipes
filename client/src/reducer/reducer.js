@@ -2,6 +2,7 @@ const initialState = {
   recipes: [],
   allRecipes: [],
   diets: [],
+  detail: [],
 };
 
 function rootReducer(state = initialState, action) {
@@ -17,6 +18,11 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
         recipes: action.payload,
+      };
+    case "GET_RECIPES_DETAIL":
+      return {
+        ...state,
+        detail: action.payload,
       };
     case "POST_RECIPES":
       return {

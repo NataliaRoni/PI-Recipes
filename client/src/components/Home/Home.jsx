@@ -12,6 +12,8 @@ import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import NavBar from "../NavBar/NavBar";
+import logo from "../../utils/images/logonatalia.png";
+import Styles from "./Home.module.css";
 
 export default function Home() {
   // Es lo mismo que hacer mapdispatchtoprops para despachar:
@@ -135,7 +137,7 @@ export default function Home() {
   return (
     <div>
       <Link to="/recipe">Crear receta</Link>
-      <h1>Esta es la pagina principal</h1>
+      <img className={Styles.img} src={logo} alt="logo"></img>
       <NavBar />
       <button
         onClick={(e) => {
@@ -184,10 +186,16 @@ export default function Home() {
         <option value="asc healthscore">Ascending HealthScore</option>
         <option value="desc healthscore">Descending HealthScore</option>
       </select>
+      <Pagination
+        recipesPerPage={recipesPerPage}
+        allRecipes={allRecipes.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
       {currentRecipes?.map((r) => {
         return (
           <div>
-            <Link to={"/home/" + r.id} key={r.id}>
+            <Link to={`/recipes/${r.id}`} key={r.id}>
               <Card
                 id={r.id}
                 name={r.name}
@@ -199,12 +207,6 @@ export default function Home() {
           </div>
         );
       })}
-      <Pagination
-        recipesPerPage={recipesPerPage}
-        allRecipes={allRecipes.length}
-        paginate={paginate}
-        currentPage={currentPage}
-      />
     </div>
   );
 }

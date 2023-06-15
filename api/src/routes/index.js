@@ -5,24 +5,22 @@ const { DietsController } = require("../controllers/DietsController");
 
 const router = Router();
 
-//* GET | /recipes/:idRecipe
+//* GET | /recipes/:id
 
-router.get("/recipes/:idRecipe", async (req, res) => {
+router.get("/recipes/:id", async (req, res) => {
   // Se trae el id de la receta por params:
-  const { idRecipe } = req.params;
+  const { id } = req.params;
 
   // Se llama a la función RecipeController para obtener todas las recetas:
   let recipes = await RecipeController();
   try {
     // Se verifica si no se proporcionó ningún id. En ese caso, se envían todas las recetas:
-    if (!idRecipe) {
+    if (!id) {
       res.status(200).send(recipes);
 
       // Si se proporciona un id, se filtran las recetas para encontrar aquella cuyo id coincida con el id proporcionado:
     } else {
-      let recipeById = recipes.filter(
-        (r) => r.id.toString() === idRecipe.toString()
-      );
+      let recipeById = recipes.filter((r) => r.id.toString() === id.toString());
 
       // Si el id proporcionado corresponde a alguna receta, se envía la receta:
       if (recipeById.length) {
