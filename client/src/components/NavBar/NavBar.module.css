@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "Myfont";
+  src: url(../../utils/fonts/SpidroMarley-Regular.ttf) format("truetype"),
+    local("Myfont");
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  font-family: "Myfont";
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  margin-right: 10px;
+  width: 250px;
+  background-color: #fff;
+  color: #023047;
+}
+
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ffb703;
+}
+
+.button {
+  background-color: #ffb703;
+  color: #023047;
+  width: 40px;
+  height: 36px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #ffd462;
+}
+
+.icon {
+  font-size: 20px;
+}

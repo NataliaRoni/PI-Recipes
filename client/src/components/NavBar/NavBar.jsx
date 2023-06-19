@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getRecipesByName } from "../../actions/actions";
+import Styles from "./NavBar.module.css";
+import { BsSearch } from "react-icons/bs";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -21,14 +23,19 @@ export default function NavBar() {
   }
 
   return (
-    <div>
+    <div className={Styles.container}>
       <input
+        className={Styles.input}
         type="text"
-        placeholder="Search"
+        placeholder="Search recipes"
         onChange={(e) => handleInputChange(e)}
       />
-      <button type="submit" onClick={(e) => handleSubmit(e)}>
-        Search
+      <button
+        className={Styles.button}
+        type="submit"
+        onClick={(e) => handleSubmit(e)}
+      >
+        <BsSearch className={Styles.icon} />
       </button>
     </div>
   );

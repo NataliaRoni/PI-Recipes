@@ -1,4 +1,5 @@
 import React from "react";
+import Styles from "./Pagination.module.css";
 
 export default function Pagination({
   allRecipes,
@@ -10,11 +11,11 @@ export default function Pagination({
   const pageNum = [];
 
   //Recorro un arreglo hasta el número entero que resulta de dividir las recetas por las recetas por página que necesito y así obtengo el número de páginas:
-  for (let i = 1; i <= Math.ceil(allRecipes / recipesPerPage); i++) {
+  for (let i = 1; i <= allPages; i++) {
     pageNum.push(i);
   }
   return (
-    <div>
+    <div className={Styles.container}>
       <button
         onClick={() => paginate(currentPage > 1 ? currentPage - 1 : 1)}
         disabled={currentPage === 1}
@@ -25,7 +26,12 @@ export default function Pagination({
         <ul>
           {pageNum?.map((num) => (
             <li key={num}>
-              <a onClick={() => paginate(num)}>{num}</a>
+              <a
+                className={num === currentPage ? Styles.active : ""}
+                onClick={() => paginate(num)}
+              >
+                {num}
+              </a>
             </li>
           ))}
         </ul>
