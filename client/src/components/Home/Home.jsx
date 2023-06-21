@@ -214,19 +214,17 @@ export default function Home() {
         {currentRecipes?.map((r) => {
           return (
             <div>
-              <Link to={`/recipes/${r.id}`} key={r.id}>
-                <Card
-                  id={r.id}
-                  name={r.name}
-                  image={r.image}
-                  diets={
-                    !r.createdInDb
-                      ? r.diets.map((d) => d)
-                      : r.diets.map((d) => d.name)
-                  }
-                  healthScore={r.healthScore}
-                />
-              </Link>
+              <Card
+                id={r.id}
+                name={r.name}
+                image={r.image}
+                diets={
+                  !r.createdInDb
+                    ? r.diets.map((d) => d)
+                    : r.diets.map((d) => d.name)
+                }
+                healthScore={r.healthScore}
+              />
             </div>
           );
         })}

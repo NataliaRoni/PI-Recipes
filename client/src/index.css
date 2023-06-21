@@ -7,6 +7,7 @@
 body {
   background-image: url(./utils/images/background.jpg);
   margin: 0;
+  text-decoration: none;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
