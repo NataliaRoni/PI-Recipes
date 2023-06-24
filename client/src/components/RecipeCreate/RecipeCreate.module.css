@@ -1,0 +1,73 @@
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form {
+  margin-bottom: 15px;
+}
+
+.form label {
+  display: block;
+  font-weight: bold;
+}
+
+.form input[type="text"],
+.form input[type="number"],
+.form input[type="url"],
+.form textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form .error {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.checkbox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 14px;
+}
+
+.submitButton {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+.submitButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.backButton {
+  display: block;
+  margin-bottom: 20px;
+}

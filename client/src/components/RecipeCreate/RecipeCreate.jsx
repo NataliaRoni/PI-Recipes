@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDiets, postRecipes } from "../../actions/actions";
+import Styles from "./RecipeCreate.module.css";
 
 function validation(input) {
   let errors = {};
@@ -101,13 +102,13 @@ export default function RecipeCreate() {
   //* RENDERIZADO
 
   return (
-    <div>
+    <div className={Styles.container}>
       <Link to="/home">
-        <button>Back</button>
+        <button className={Styles.backButton}>Back</button>
       </Link>
-      <h1>Create your recipe</h1>
+      <h1 className={Styles.title}>Create your recipe</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
+        <div className={Styles.form}>
           <label>Name: </label>{" "}
           <input
             type="text"
@@ -117,7 +118,7 @@ export default function RecipeCreate() {
           />
           {errors.name && <p className="error">{errors.name}</p>}
         </div>
-        <div>
+        <div className={Styles.form}>
           <label>Image: </label>
           <input
             type="url"
@@ -126,7 +127,7 @@ export default function RecipeCreate() {
             onChange={(e) => handleChange(e)}
           />
         </div>
-        <div>
+        <div className={Styles.form}>
           <label>Summary: </label>
           <input
             type="text"
@@ -136,7 +137,7 @@ export default function RecipeCreate() {
           />
           {errors.summary && <p className="error">{errors.summary}</p>}
         </div>
-        <div>
+        <div className={Styles.form}>
           <label>Health Score: </label>
           <input
             type="number"
@@ -146,7 +147,7 @@ export default function RecipeCreate() {
           />
           {errors.healthScore && <p className="error">{errors.healthScore}</p>}
         </div>
-        <div>
+        <div className={Styles.form}>
           <label>Steps: </label>
           <textarea
             type="text"
@@ -156,7 +157,7 @@ export default function RecipeCreate() {
           />
           {errors.steps && <p className="error">{errors.steps}</p>}
         </div>
-        <div>
+        <div className={Styles.checkbox}>
           <label>Diets: </label>
           <label>
             <input
@@ -250,7 +251,11 @@ export default function RecipeCreate() {
           </label>
           {errors.diets && <p className="error">{errors.diets}</p>}
         </div>
-        <button disabled={disabled} type="submit">
+        <button
+          className={Styles.submitButton}
+          disabled={disabled}
+          type="submit"
+        >
           Create my recipe
         </button>
       </form>
