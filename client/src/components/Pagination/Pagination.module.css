@@ -29,8 +29,8 @@
 }
 
 .container a.active {
-  background-color: #ffd462;
-  color: #023047;
+  background-color: #023047;
+  color: #ffd462;
 }
 
 .container ul {
@@ -42,12 +42,12 @@
 
 .container ul li a {
   text-decoration: none;
-  color: #023047;
+  color: #ffd462;
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
 
 .container ul li a:hover {
-  background-color: #ffd462;
+  background-color: #023047;
 }

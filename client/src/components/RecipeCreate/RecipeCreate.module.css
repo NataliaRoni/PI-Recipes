@@ -1,65 +1,103 @@
+@font-face {
+  font-family: "Myfont";
+  src: url(../../utils/fonts/SpidroMarley-Regular.ttf) format("truetype"),
+    local("Myfont");
+}
+
 .container {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
+  width: 800px; /* Tamaño de ancho fijo */
+  height: 586px;
+  display: flex;
+  flex-direction: column;
+  background-image: url("../../utils/images/create.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  justify-content: center;
+  align-items: center;
+  margin: 5px auto;
+  color: #023047;
 }
 
 .title {
-  font-size: 24px;
+  font-size: 20px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-top: 12px;
+  color: #ffb703;
 }
 
 .form {
-  margin-bottom: 15px;
+  margin-bottom: 5px;
+  margin-right: 100px;
+  margin-left: 100px;
+  font-size: 13px;
 }
 
 .form label {
   display: block;
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .form input[type="text"],
 .form input[type="number"],
 .form input[type="url"],
 .form textarea {
+  font-family: "Myfont";
+  font-size: 12px;
   width: 100%;
-  padding: 8px;
+  padding: 3px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  color: #5a5a5a;
 }
 
-.form .error {
+.error {
   color: red;
-  font-size: 14px;
-  margin-top: 5px;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.error1 {
+  color: red;
+  font-size: 12px;
+  margin-top: 2px;
+  margin-left: 170px;
 }
 
 .checkbox {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 8px;
+  padding-right: 50px;
+  padding-left: 100px;
+}
+
+.labelCheck {
+  display: block;
+  font-weight: bold;
 }
 
 .checkbox label {
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .submitButton {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background-color: #4caf50;
-  color: white;
+  font-family: "Myfont";
+  margin-top: 8px;
+  background-color: #023047;
+  color: #fbe4d7;
+  padding: 6px 16px;
   border: none;
   border-radius: 4px;
+  font-size: 15px;
   cursor: pointer;
-  font-size: 16px;
-  margin-top: 20px;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
 }
 
 .submitButton:disabled {
@@ -68,6 +106,17 @@
 }
 
 .backButton {
-  display: block;
-  margin-bottom: 20px;
+  display: flex;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 30px;
+  top: 70px;
+  right: 940px;
+  position: absolute;
+}
+
+.backButton:hover,
+.backButton:focus {
+  transform: scale(1.1);
 }

@@ -4,6 +4,8 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDiets, postRecipes } from "../../actions/actions";
 import Styles from "./RecipeCreate.module.css";
+import { MdArrowBackIosNew } from "react-icons/md";
+import swal from "sweetalert";
 
 function validation(input) {
   let errors = {};
@@ -81,9 +83,13 @@ export default function RecipeCreate() {
   // Postea la receta creada y nos devuelve a home:
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(input);
     dispatch(postRecipes(input));
-    alert("Recipe created successfully!");
+    swal({
+      title: "Recipe created successfully!",
+      icon: success,
+      button: "Ok",
+      className: Styles["swal"],
+    });
     setInput({
       name: "",
       image: "",
@@ -104,9 +110,12 @@ export default function RecipeCreate() {
   return (
     <div className={Styles.container}>
       <Link to="/home">
-        <button className={Styles.backButton}>Back</button>
+        <button className={Styles.backButton}>
+          {" "}
+          <MdArrowBackIosNew style={{ color: "#ffb703" }} />
+        </button>
       </Link>
-      <h1 className={Styles.title}>Create your recipe</h1>
+      <h1 className={Styles.title}>Create your recipe!</h1>
       <form onSubmit={(e) => handleSubmit(e)}>
         <div className={Styles.form}>
           <label>Name: </label>{" "}
@@ -116,7 +125,7 @@ export default function RecipeCreate() {
             name="name"
             onChange={(e) => handleChange(e)}
           />
-          {errors.name && <p className="error">{errors.name}</p>}
+          {errors.name && <p className={Styles.error}>{errors.name}</p>}
         </div>
         <div className={Styles.form}>
           <label>Image: </label>
@@ -135,7 +144,7 @@ export default function RecipeCreate() {
             name="summary"
             onChange={(e) => handleChange(e)}
           />
-          {errors.summary && <p className="error">{errors.summary}</p>}
+          {errors.summary && <p className={Styles.error}>{errors.summary}</p>}
         </div>
         <div className={Styles.form}>
           <label>Health Score: </label>
@@ -145,7 +154,9 @@ export default function RecipeCreate() {
             name="healthScore"
             onChange={(e) => handleChange(e)}
           />
-          {errors.healthScore && <p className="error">{errors.healthScore}</p>}
+          {errors.healthScore && (
+            <p className={Styles.error}>{errors.healthScore}</p>
+          )}
         </div>
         <div className={Styles.form}>
           <label>Steps: </label>
@@ -155,10 +166,10 @@ export default function RecipeCreate() {
             name="steps"
             onChange={(e) => handleChange(e)}
           />
-          {errors.steps && <p className="error">{errors.steps}</p>}
+          {errors.steps && <p className={Styles.error}>{errors.steps}</p>}
         </div>
         <div className={Styles.checkbox}>
-          <label>Diets: </label>
+          <label className={Styles.labelCheck}>Diets: </label>
           <label>
             <input
               type="checkbox"
@@ -249,14 +260,14 @@ export default function RecipeCreate() {
             />
             Ketogenic
           </label>
-          {errors.diets && <p className="error">{errors.diets}</p>}
+          {errors.diets && <p className={Styles.error1}>{errors.diets}</p>}
         </div>
         <button
           className={Styles.submitButton}
           disabled={disabled}
           type="submit"
         >
-          Create my recipe
+          Create recipe
         </button>
       </form>
     </div>

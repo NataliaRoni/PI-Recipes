@@ -11,6 +11,7 @@ import whole from "../../utils/images/whole.png";
 import primal from "../../utils/images/primal.png";
 import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
+import noimage from "../../utils/images/noimage.png";
 
 export default function Card({ id, name, diets, image, healthScore }) {
   const getIcon = (dietType) => {
@@ -102,7 +103,7 @@ export default function Card({ id, name, diets, image, healthScore }) {
   return (
     <div className={Styles.container}>
       <Link to={`/recipes/${id}`} key={id} style={{ textDecoration: "none" }}>
-        <img src={image} alt="img not found" />
+        <img src={image} alt="not found" />
         <div>
           <h1>{name}</h1>
           <div className={Styles.containerDiets}>

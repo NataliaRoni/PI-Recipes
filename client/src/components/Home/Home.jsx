@@ -15,6 +15,7 @@ import NavBar from "../NavBar/NavBar";
 import logo from "../../utils/images/logonatalia.png";
 import Styles from "./Home.module.css";
 import { TbLogout } from "react-icons/tb";
+import noimage from "../../utils/images/noimage.png";
 
 export default function Home() {
   // Es lo mismo que hacer mapdispatchtoprops para despachar:
@@ -144,7 +145,7 @@ export default function Home() {
           <button className={Styles.create}>Create recipe</button>
         </Link>
         <Link to="/">
-          <button className={Styles.create}>
+          <button className={Styles.logout}>
             <TbLogout />
           </button>
         </Link>
@@ -217,7 +218,7 @@ export default function Home() {
               <Card
                 id={r.id}
                 name={r.name}
-                image={r.image}
+                image={!r.image && r.createdInDb ? noimage : r.image}
                 diets={
                   !r.createdInDb
                     ? r.diets.map((d) => d)

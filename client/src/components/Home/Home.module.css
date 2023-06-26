@@ -14,7 +14,8 @@
   width: 160px;
   height: 160px;
   align-self: flex-start;
-  margin-left: 30px;
+  margin-left: 40px;
+  margin-right: 90px;
 }
 
 .NavBar {
@@ -24,6 +25,24 @@
 }
 
 .create {
+  margin-left: auto;
+  font-family: "Myfont";
+  font-size: 15px;
+  font-weight: bold;
+  background-color: #ffb703;
+  color: #023047;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.create:hover {
+  background-color: #ffd462;
+}
+
+.logout {
   margin-left: auto;
   margin-right: 30px;
   font-family: "Myfont";
@@ -38,7 +57,7 @@
   transition: background-color 0.3s ease;
 }
 
-.create:hover {
+.logout:hover {
   background-color: #ffd462;
 }
 

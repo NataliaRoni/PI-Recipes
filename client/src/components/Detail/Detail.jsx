@@ -16,6 +16,7 @@ import primal from "../../utils/images/primal.png";
 import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
 import { MdArrowBackIosNew } from "react-icons/md";
+import noimage from "../../utils/images/noimage.png";
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ export default function Detail() {
   const { id } = useParams();
 
   const detail = useSelector((state) => state.detail);
+
+  const imageSrc = detail.length > 0 ? detail[0].image : noimage;
 
   useEffect(() => {
     dispatch(getRecipesDetail(id));
@@ -128,7 +131,15 @@ export default function Detail() {
           </div>
           <div className={Styles.left}>
             <h1>{detail[0].name}</h1>
-            <img className="img_detail" src={detail[0].image} alt="not found" />
+            <img
+              className={Styles.imgDB}
+              src={
+                !detail[0].image && detail[0].createdInDb
+                  ? noimage
+                  : detail[0].image
+              }
+              alt="not found"
+            />
             <h2>Health Score: {detail[0].healthScore}</h2>
             <ul>
               {!detail[0].createdInDb
