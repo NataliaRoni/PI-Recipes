@@ -120,3 +120,7 @@
 .backButton:focus {
   transform: scale(1.1);
 }
+
+.swal button {
+  background-color: #023047;
+}

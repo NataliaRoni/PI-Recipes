@@ -17,6 +17,7 @@ import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
 import { MdArrowBackIosNew } from "react-icons/md";
 import noimage from "../../utils/images/noimage.png";
+import loading from "../../utils/images/loading.gif";
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -167,7 +168,7 @@ export default function Detail() {
         </div>
       ) : (
         <div>
-          <h4>Loading...</h4>
+          Loading...
         </div>
       )}
     </div>

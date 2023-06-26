@@ -86,7 +86,7 @@ export default function RecipeCreate() {
     dispatch(postRecipes(input));
     swal({
       title: "Recipe created successfully!",
-      icon: success,
+      icon: "success",
       button: "Ok",
       className: Styles["swal"],
     });
