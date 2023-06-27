@@ -17,7 +17,8 @@ import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
 import { MdArrowBackIosNew } from "react-icons/md";
 import noimage from "../../utils/images/noimage.png";
-import loading from "../../utils/images/loading.gif";
+import loadingImg from "../../utils/images/loading.gif";
+import { useState } from "react";
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -26,10 +27,12 @@ export default function Detail() {
 
   const detail = useSelector((state) => state.detail);
 
-  const imageSrc = detail.length > 0 ? detail[0].image : noimage;
+  const [loading, setLoading] = useState(null);
 
   useEffect(() => {
-    dispatch(getRecipesDetail(id));
+    dispatch(getRecipesDetail(id)).then((r) => {
+      setLoading(r);
+    });
   }, [dispatch, id]);
 
   const getIcon = (dietType) => {
@@ -121,7 +124,11 @@ export default function Detail() {
 
   return (
     <div className={Styles.container}>
-      {detail.length > 0 ? (
+      {loading === null ? (
+        <div>
+          <img className={Styles.imgLoading} src={loadingImg} alt="Loading" />
+        </div>
+      ) : (
         <div className={Styles.containerInfo}>
           <div className={Styles.buttonContainer}>
             <Link to="/home">
@@ -165,10 +172,6 @@ export default function Detail() {
                 : detail[0].steps}
             </ol>
           </div>
-        </div>
-      ) : (
-        <div>
-          Loading...
         </div>
       )}
     </div>

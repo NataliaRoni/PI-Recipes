@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { getRecipesByName } from "../../actions/actions";
 import Styles from "./NavBar.module.css";
 import { BsSearch } from "react-icons/bs";
+import swal from "sweetalert";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -18,8 +19,29 @@ export default function NavBar() {
   // Despacha el estado local name a la action, lo que hace que lo que se escribe en el input le llegue al back:
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(getRecipesByName(name));
-    setName("");
+    if (name === "") {
+      swal({
+        title: "Enter a recipe name",
+        icon: "error",
+        button: "OK",
+        className: Styles["swal"],
+      });
+    } else {
+    }
+    dispatch(getRecipesByName(name)).then((n) => {
+      if (!n) {
+        swal({
+          title: "Recipe does not exist",
+          icon: "error",
+          button: "OK",
+          className: Styles["swal"],
+        });
+      }
+    });
+
+    setTimeout(() => {
+      setName("");
+    }, 1000);
   }
 
   return (

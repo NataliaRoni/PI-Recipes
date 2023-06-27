@@ -16,6 +16,7 @@ import logo from "../../utils/images/logonatalia.png";
 import Styles from "./Home.module.css";
 import { TbLogout } from "react-icons/tb";
 import noimage from "../../utils/images/noimage.png";
+import loadingImg from "../../utils/images/loading.gif";
 
 export default function Home() {
   // Es lo mismo que hacer mapdispatchtoprops para despachar:
@@ -37,6 +38,8 @@ export default function Home() {
     orderByHealthScore: "all",
     orderByName: "all",
   });
+
+  const [loading, setLoading] = useState(null);
 
   //* PAGINADO
 
@@ -61,10 +64,12 @@ export default function Home() {
     setCurrentPage(pageNum);
   };
 
-  //* DESPACHAR RECETAS Y DIETAS
+  //* DESPACHAR RECETAS
 
   useEffect(() => {
-    dispatch(getRecipes());
+    dispatch(getRecipes()).then((r) => {
+      setLoading(r);
+    });
   }, [dispatch]); //En [] se ponen las dependencias que se necesitan antes de hacer el useEffect
 
   //* RECARGAR RECETAS
@@ -138,98 +143,107 @@ export default function Home() {
 
   return (
     <div>
-      <div className={Styles.container}>
-        <img className={Styles.img} src={logo} alt="logo"></img>
-        <NavBar className={Styles.NavBar} />
-        <Link to="/recipe">
-          <button className={Styles.create}>Create recipe</button>
-        </Link>
-        <Link to="/">
-          <button className={Styles.logout}>
-            <TbLogout />
-          </button>
-        </Link>
-      </div>
-      <div className={Styles.filterContainer}>
-        <button
-          className={Styles.filterButton}
-          onClick={(e) => {
-            handleClick(e);
-          }}
-        >
-          Clean filters
-        </button>
-        <select
-          className={Styles.filterSelect}
-          value={selectedValues.orderByHealthScore}
-          onChange={(e) => handleOrderByHealth(e)}
-        >
-          <option value="all">HealthScore order</option>
-          <option value="asc healthscore">Less HealthScore</option>
-          <option value="desc healthscore">More HealthScore</option>
-        </select>
-        <select
-          className={Styles.filterSelect}
-          value={selectedValues.orderByName}
-          onChange={(e) => handleOrderByName(e)}
-        >
-          <option value="all">Alphabetic order</option>
-          <option value="A-Z">A-Z</option>
-          <option value="Z-A">Z-A</option>
-        </select>
-        <select
-          className={Styles.filterSelect}
-          value={selectedValues.filterByDiets}
-          onChange={(e) => handleFilterByDiets(e)}
-        >
-          <option value="all">Filter by diets</option>
-          <option value="dairy free">Dairy free</option>
-          <option value="gluten free">Gluten free</option>
-          <option value="lacto ovo vegetarian">Lacto ovo vegetarian</option>
-          <option value="vegan">Vegan</option>
-          <option value="pescatarian">Pescatarian</option>
-          <option value="fodmap friendly">Fodmap friendly</option>
-          <option value="whole 30">Whole 30</option>
-          <option value="primal">Primal</option>
-          <option value="paleolithic">Paleolithic</option>
-          <option value="ketogenic">Ketogenic</option>
-        </select>
+      {loading === null ? (
+        <div>
+          <img className={Styles.imgLoading} src={loadingImg} alt="Loading" />
+        </div>
+      ) : (
+        <div>
+          <div className={Styles.container}>
+            <img className={Styles.img} src={logo} alt="logo" />
+            <NavBar className={Styles.NavBar} />
+            <Link to="/recipe">
+              <button className={Styles.create}>Create recipe</button>
+            </Link>
+            <Link to="/">
+              <button className={Styles.logout}>
+                <TbLogout />
+              </button>
+            </Link>
+          </div>
+          <div className={Styles.filterContainer}>
+            <button
+              className={Styles.filterButton}
+              onClick={(e) => {
+                handleClick(e);
+              }}
+            >
+              Clean filters
+            </button>
+            <select
+              className={Styles.filterSelect}
+              value={selectedValues.orderByHealthScore}
+              onChange={(e) => handleOrderByHealth(e)}
+            >
+              <option value="all">HealthScore order</option>
+              <option value="asc healthscore">Less HealthScore</option>
+              <option value="desc healthscore">More HealthScore</option>
+            </select>
+            <select
+              className={Styles.filterSelect}
+              value={selectedValues.orderByName}
+              onChange={(e) => handleOrderByName(e)}
+            >
+              <option value="all">Alphabetic order</option>
+              <option value="A-Z">A-Z</option>
+              <option value="Z-A">Z-A</option>
+            </select>
+            <select
+              className={Styles.filterSelect}
+              value={selectedValues.filterByDiets}
+              onChange={(e) => handleFilterByDiets(e)}
+            >
+              <option value="all">Filter by diets</option>
+              <option value="dairy free">Dairy free</option>
+              <option value="gluten free">Gluten free</option>
+              <option value="lacto ovo vegetarian">Lacto ovo vegetarian</option>
+              <option value="vegan">Vegan</option>
+              <option value="pescatarian">Pescatarian</option>
+              <option value="fodmap friendly">Fodmap friendly</option>
+              <option value="whole 30">Whole 30</option>
+              <option value="primal">Primal</option>
+              <option value="paleolithic">Paleolithic</option>
+              <option value="ketogenic">Ketogenic</option>
+            </select>
 
-        <select
-          className={Styles.filterSelect}
-          value={selectedValues.filterMyRecipes}
-          onChange={(e) => handleFilterMyRecipes(e)}
-        >
-          <option value="all">Filter by recipes</option>
-          <option value="api">API recipes</option>
-          <option value="my recipes">My recipes</option>
-        </select>
-      </div>
-      <Pagination
-        recipesPerPage={recipesPerPage}
-        allRecipes={allRecipes.length}
-        paginate={paginate}
-        currentPage={currentPage}
-      />
-      <div className={Styles.containerCard}>
-        {currentRecipes?.map((r) => {
-          return (
-            <div>
-              <Card
-                id={r.id}
-                name={r.name}
-                image={!r.image && r.createdInDb ? noimage : r.image}
-                diets={
-                  !r.createdInDb
-                    ? r.diets.map((d) => d)
-                    : r.diets.map((d) => d.name)
-                }
-                healthScore={r.healthScore}
-              />
-            </div>
-          );
-        })}
-      </div>
+            <select
+              className={Styles.filterSelect}
+              value={selectedValues.filterMyRecipes}
+              onChange={(e) => handleFilterMyRecipes(e)}
+            >
+              <option value="all">Filter by recipes</option>
+              <option value="api">API recipes</option>
+              <option value="my recipes">My recipes</option>
+            </select>
+          </div>
+          <Pagination
+            recipesPerPage={recipesPerPage}
+            allRecipes={allRecipes.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+          <div className={Styles.containerCard}>
+            {currentRecipes?.map((r) => {
+              return (
+                <div key={r.id}>
+                  <Card
+                    id={r.id}
+                    name={r.name}
+                    image={!r.image && r.createdInDb ? noimage : r.image}
+                    diets={
+                      !r.createdInDb
+                        ? r.diets.map((d) => d)
+                        : r.diets.map((d) => d.name)
+                    }
+                    healthScore={r.healthScore}
+                    createdInDb={r.createdInDb}
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

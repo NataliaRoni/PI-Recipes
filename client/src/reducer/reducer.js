@@ -28,6 +28,14 @@ function rootReducer(state = initialState, action) {
       return {
         ...state,
       };
+    case "DELETE_RECIPE":
+      const updatedRecipes = state.recipes.filter(
+        (recipe) => recipe.id !== action.payload
+      );
+      return {
+        ...state,
+        recipes: updatedRecipes,
+      };
     case "GET_DIETS":
       return {
         ...state,

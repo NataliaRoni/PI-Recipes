@@ -51,6 +51,20 @@ export function postRecipes(payload) {
   };
 }
 
+export function deleteRecipe(id) {
+  return async function (dispatch) {
+    try {
+      await axios.delete("http://localhost:3001/recipes/" + id);
+      return dispatch({
+        type: "DELETE_RECIPE",
+        payload: id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+}
+
 export function getDiets() {
   return async function (dispatch) {
     try {

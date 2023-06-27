@@ -28,9 +28,14 @@
   background-color: #ffd462;
 }
 
+.container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
 .container a.active {
   background-color: #023047;
-  color: #ffd462;
+  color: #ffb703;
 }
 
 .container ul {
@@ -42,12 +47,12 @@
 
 .container ul li a {
   text-decoration: none;
-  color: #ffd462;
+  color: #ffb703;
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.3s ease;
 }
 
 .container ul li a:hover {
-  background-color: #023047;
+  background-color: #023046;
 }

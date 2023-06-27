@@ -87,7 +87,7 @@ export default function RecipeCreate() {
     swal({
       title: "Recipe created successfully!",
       icon: "success",
-      button: "Ok",
+      button: "OK",
       className: Styles["swal"],
     });
     setInput({

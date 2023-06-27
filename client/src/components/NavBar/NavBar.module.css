@@ -43,3 +43,7 @@
 .icon {
   font-size: 20px;
 }
+
+.swal button {
+  background-color: #023047;
+}

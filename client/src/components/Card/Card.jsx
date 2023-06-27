@@ -12,8 +12,20 @@ import primal from "../../utils/images/primal.png";
 import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
 import noimage from "../../utils/images/noimage.png";
+import { deleteRecipe } from "../../actions/actions";
+import { useDispatch } from "react-redux";
+import { AiFillCloseCircle } from "react-icons/ai";
 
-export default function Card({ id, name, diets, image, healthScore }) {
+export default function Card({
+  id,
+  name,
+  diets,
+  image,
+  healthScore,
+  createdInDb,
+}) {
+  const dispatch = useDispatch();
+
   const getIcon = (dietType) => {
     switch (dietType) {
       case "dairy free":
@@ -100,8 +112,29 @@ export default function Card({ id, name, diets, image, healthScore }) {
         return null;
     }
   };
+
+  const handleDelete = (id) => {
+    // Llama a la acción deleteRecipe pasando el id de la receta
+    dispatch(deleteRecipe(id));
+  };
+
+  const deleteButton = () => {
+    if (createdInDb) {
+      return (
+        <button
+          className={Styles.buttonDelete}
+          onClick={() => handleDelete(id)}
+        >
+          <AiFillCloseCircle style={{ color: "#ffb703" }} />
+        </button>
+      );
+    }
+    return null;
+  };
+
   return (
     <div className={Styles.container}>
+      {deleteButton()}
       <Link to={`/recipes/${id}`} key={id} style={{ textDecoration: "none" }}>
         <img src={image} alt="not found" />
         <div>
