@@ -15,10 +15,10 @@ import whole from "../../utils/images/whole.png";
 import primal from "../../utils/images/primal.png";
 import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
-import { MdArrowBackIosNew } from "react-icons/md";
 import noimage from "../../utils/images/noimage.png";
 import loadingImg from "../../utils/images/loading.gif";
 import { useState } from "react";
+import back from "../../utils/images/back.png";
 
 export default function Detail() {
   const dispatch = useDispatch();
@@ -133,7 +133,7 @@ export default function Detail() {
           <div className={Styles.buttonContainer}>
             <Link to="/home">
               <button className={Styles.button}>
-                <MdArrowBackIosNew style={{ color: "#ffb703" }} />
+                <img src={back} alt="Back" height="20" width="20" />
               </button>
             </Link>
           </div>

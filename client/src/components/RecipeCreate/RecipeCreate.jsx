@@ -4,7 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDiets, postRecipes } from "../../actions/actions";
 import Styles from "./RecipeCreate.module.css";
-import { MdArrowBackIosNew } from "react-icons/md";
+import back from "../../utils/images/back.png";
 import swal from "sweetalert";
 
 function validation(input) {
@@ -35,8 +35,11 @@ export default function RecipeCreate() {
   // Se usa para redirigirme a una ruta:
   const history = useHistory();
 
-  // Toma el estado diets del reducer:
+  // Toma el estado global diets del reducer:
   const diets = useSelector((state) => state.diets);
+
+  // Toma el estado global recipes del reducer:
+  const recipes = useSelector((state) => state.recipes);
 
   // Se crea un estado que guarde lo que recibe en el input:
   const [input, setInput] = useState({
@@ -112,7 +115,7 @@ export default function RecipeCreate() {
       <Link to="/home">
         <button className={Styles.backButton}>
           {" "}
-          <MdArrowBackIosNew style={{ color: "#ffb703" }} />
+          <img src={back} alt="Back" height="22" width="22" />
         </button>
       </Link>
       <h1 className={Styles.title}>Create your recipe!</h1>

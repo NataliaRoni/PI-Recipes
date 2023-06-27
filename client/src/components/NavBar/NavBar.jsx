@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getRecipesByName } from "../../actions/actions";
 import Styles from "./NavBar.module.css";
-import { BsSearch } from "react-icons/bs";
+import search from "../../utils/images/lupa.png";
 import swal from "sweetalert";
 
 export default function NavBar() {
@@ -57,7 +57,7 @@ export default function NavBar() {
         type="submit"
         onClick={(e) => handleSubmit(e)}
       >
-        <BsSearch className={Styles.icon} />
+        <img src={search} alt="Logout" height="20" width="20" />
       </button>
     </div>
   );

@@ -1,3 +1,4 @@
+//Estados globales:
 const initialState = {
   recipes: [],
   allRecipes: [],
@@ -17,7 +18,7 @@ function rootReducer(state = initialState, action) {
     case "GET_RECIPES_BY_NAME":
       return {
         ...state,
-        recipes: action.payload,
+        allRecipes: action.payload,
       };
     case "GET_RECIPES_DETAIL":
       return {
@@ -29,12 +30,12 @@ function rootReducer(state = initialState, action) {
         ...state,
       };
     case "DELETE_RECIPE":
-      const updatedRecipes = state.recipes.filter(
+      const updatedRecipes = state.allRecipes.filter(
         (recipe) => recipe.id !== action.payload
       );
       return {
         ...state,
-        recipes: updatedRecipes,
+        allRecipes: updatedRecipes,
       };
     case "GET_DIETS":
       return {
@@ -44,14 +45,14 @@ function rootReducer(state = initialState, action) {
     case "FILTER_BY_DIETS":
       // La lógica del reducer siempre va antes del return
       // Se hace un filtro que traiga las recetas que contengan la dieta del filtro y se hace con allRecipes para que permita filtrar varias veces:
-      const allRecipes = state.allRecipes;
+      const allRecipes = state.recipes;
       const dietsFilter =
         action.payload === "all"
           ? allRecipes
           : allRecipes.filter((e) => e.diets.some((d) => d === action.payload));
       return {
         ...state,
-        recipes: dietsFilter,
+        allRecipes: dietsFilter,
       };
     case "FILTER_MY_RECIPES":
       const allRecipes2 = state.allRecipes;
@@ -61,16 +62,21 @@ function rootReducer(state = initialState, action) {
           : allRecipes2.filter((e) => !e.createdInDb);
       return {
         ...state,
-        recipes: action.payload === "all" ? state.allRecipes : myRecipesFilter,
+        allRecipes:
+          action.payload === "all" ? state.allRecipes : myRecipesFilter,
       };
     case "ORDER_BY_NAME":
+      const showRecipes2 = state.allRecipes.length
+        ? state.allRecipes
+        : state.recipes;
+      console.log(showRecipes2);
       //Se crea un condicional que busque si se desea ordenar de la A a la Z, entonces haga un método sort:
       const order =
         action.payload === "A-Z"
           ? // El sort pregunta si "a" es una letra que va primero en el alfabeto que "b".
             // Si es así, la pone en la posición 1, si no la pone en la posición -1 y si ya está organizada la deja quieta en la posición 0.
             // Si queremos que se organice de la Z a la A se hace lo contrario.
-            state.recipes.sort(function (a, b) {
+            showRecipes2.sort(function (a, b) {
               if (a.name > b.name) {
                 return 1;
               }
@@ -79,7 +85,7 @@ function rootReducer(state = initialState, action) {
               }
               return 0;
             })
-          : state.recipes.sort(function (a, b) {
+          : showRecipes2.sort(function (a, b) {
               if (a.name > b.name) {
                 return -1;
               }
@@ -90,12 +96,16 @@ function rootReducer(state = initialState, action) {
             });
       return {
         ...state,
-        recipes: order,
+        allRecipes: order,
       };
     case "ORDER_BY_HEALTHSCORE":
+      const showRecipes = state.allRecipes.length
+        ? state.allRecipes
+        : state.recipes;
+      console.log(showRecipes);
       const healthOrder =
         action.payload === "asc healthscore"
-          ? state.recipes.sort(function (a, b) {
+          ? showRecipes.sort(function (a, b) {
               if (a.healthScore > b.healthScore) {
                 return 1;
               }
@@ -104,7 +114,7 @@ function rootReducer(state = initialState, action) {
               }
               return 0;
             })
-          : state.recipes.sort(function (a, b) {
+          : showRecipes.sort(function (a, b) {
               if (a.healthScore > b.healthScore) {
                 return -1;
               }
@@ -115,7 +125,7 @@ function rootReducer(state = initialState, action) {
             });
       return {
         ...state,
-        recipes: healthOrder,
+        allRecipes: healthOrder,
       };
     default:
       return state;

@@ -14,16 +14,16 @@ import Pagination from "../Pagination/Pagination";
 import NavBar from "../NavBar/NavBar";
 import logo from "../../utils/images/logonatalia.png";
 import Styles from "./Home.module.css";
-import { TbLogout } from "react-icons/tb";
 import noimage from "../../utils/images/noimage.png";
 import loadingImg from "../../utils/images/loading.gif";
+import iconLogout from "../../utils/images/salir.png";
 
 export default function Home() {
   // Es lo mismo que hacer mapdispatchtoprops para despachar:
   const dispatch = useDispatch();
 
   // Es lo mismo que hacer mapstatetoprops para traer las recetas:
-  const allRecipes = useSelector((state) => state.recipes);
+  const allRecipes = useSelector((state) => state.allRecipes);
 
   // Estado para traer las dietas:
   const allDiets = useSelector((state) => state.diets);
@@ -91,24 +91,22 @@ export default function Home() {
   function handleFilterByDiets(e) {
     //Despacha a la action el valor del payload dependiendo de cada option.
     dispatch(filterByDiets(e.target.value));
+    //Cuando hago el ordenamiento que se setee en la página 1
+    setCurrentPage(1);
     setSelectedValues((prevState) => ({
       ...prevState,
       filterByDiets: e.target.value,
-      filterMyRecipes: "all",
-      orderByHealthScore: "all",
-      orderByName: "all",
     }));
   }
 
   function handleFilterMyRecipes(e) {
     dispatch(filterMyRecipes(e.target.value));
+    //Cuando hago el ordenamiento que se setee en la página 1
     setSelectedValues((prevState) => ({
       ...prevState,
       filterMyRecipes: e.target.value,
-      filterByDiets: "all",
-      orderByHealthScore: "all",
-      orderByName: "all",
     }));
+    setCurrentPage(1);
   }
 
   function handleOrderByName(e) {
@@ -120,22 +118,18 @@ export default function Home() {
     setSelectedValues((prevState) => ({
       ...prevState,
       orderByName: e.target.value,
-      filterByDiets: "all",
-      filterMyRecipes: "all",
-      orderByHealthScore: "all",
     }));
   }
 
   function handleOrderByHealth(e) {
     e.preventDefault();
     dispatch(orderByHealthScore(e.target.value));
+    //Cuando hago el ordenamiento que se setee en la página 1
+    setCurrentPage(1);
     setOrder(`Order ${e.target.value}`);
     setSelectedValues((prevState) => ({
       ...prevState,
       orderByHealthScore: e.target.value,
-      filterByDiets: "all",
-      filterMyRecipes: "all",
-      orderByName: "all",
     }));
   }
 
@@ -157,7 +151,7 @@ export default function Home() {
             </Link>
             <Link to="/">
               <button className={Styles.logout}>
-                <TbLogout />
+                <img src={iconLogout} alt="Logout" height="20" width="20" />
               </button>
             </Link>
           </div>

@@ -14,7 +14,7 @@ import keto from "../../utils/images/keto.png";
 import noimage from "../../utils/images/noimage.png";
 import { deleteRecipe } from "../../actions/actions";
 import { useDispatch } from "react-redux";
-import { AiFillCloseCircle } from "react-icons/ai";
+import close from "../../utils/images/equis.png";
 
 export default function Card({
   id,
@@ -124,9 +124,7 @@ export default function Card({
         <button
           className={Styles.buttonDelete}
           onClick={() => handleDelete(id)}
-        >
-          <AiFillCloseCircle style={{ color: "#ffb703" }} />
-        </button>
+        ></button>
       );
     }
     return null;
