@@ -110,6 +110,19 @@ router.post("/recipes", async (req, res) => {
   }
 });
 
+//* DELETE | /recipes/:id
+
+router.delete("/recipes/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    let recipeDelete = await Recipe.findByPk(id);
+    recipeDelete.destroy();
+    res.status(201).send("Recipe deleted correctly");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //* GET | /diets
 
 router.get("/diets", async (req, res) => {
