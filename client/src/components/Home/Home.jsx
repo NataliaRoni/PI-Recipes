@@ -166,24 +166,6 @@ export default function Home() {
             </button>
             <select
               className={Styles.filterSelect}
-              value={selectedValues.orderByHealthScore}
-              onChange={(e) => handleOrderByHealth(e)}
-            >
-              <option value="all">HealthScore order</option>
-              <option value="asc healthscore">Less HealthScore</option>
-              <option value="desc healthscore">More HealthScore</option>
-            </select>
-            <select
-              className={Styles.filterSelect}
-              value={selectedValues.orderByName}
-              onChange={(e) => handleOrderByName(e)}
-            >
-              <option value="all">Alphabetic order</option>
-              <option value="A-Z">A-Z</option>
-              <option value="Z-A">Z-A</option>
-            </select>
-            <select
-              className={Styles.filterSelect}
               value={selectedValues.filterByDiets}
               onChange={(e) => handleFilterByDiets(e)}
             >
@@ -208,6 +190,24 @@ export default function Home() {
               <option value="all">Filter by recipes</option>
               <option value="api">API recipes</option>
               <option value="my recipes">My recipes</option>
+            </select>
+            <select
+              className={Styles.filterSelect}
+              value={selectedValues.orderByHealthScore}
+              onChange={(e) => handleOrderByHealth(e)}
+            >
+              <option value="all">HealthScore order</option>
+              <option value="asc healthscore">Less HealthScore</option>
+              <option value="desc healthscore">More HealthScore</option>
+            </select>
+            <select
+              className={Styles.filterSelect}
+              value={selectedValues.orderByName}
+              onChange={(e) => handleOrderByName(e)}
+            >
+              <option value="all">Alphabetic order</option>
+              <option value="A-Z">A-Z</option>
+              <option value="Z-A">Z-A</option>
             </select>
           </div>
           <Pagination

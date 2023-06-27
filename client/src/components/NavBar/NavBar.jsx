@@ -38,10 +38,9 @@ export default function NavBar() {
         });
       }
     });
-
     setTimeout(() => {
       setName("");
-    }, 1000);
+    }, 2000);
   }
 
   return (
@@ -51,6 +50,7 @@ export default function NavBar() {
         type="text"
         placeholder="Search recipes"
         onChange={(e) => handleInputChange(e)}
+        value={name}
       />
       <button
         className={Styles.button}
