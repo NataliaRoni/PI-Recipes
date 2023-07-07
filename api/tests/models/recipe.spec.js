@@ -20,9 +20,12 @@ describe("Recipe model", () => {
       });
     });
     describe("image", () => {
+      // Crea una instancia de un modelo de receta sin proporcionar una imagen.
+      // Esto se hace para probar que se lanza un error cuando la imagen es nula.
       it("should throw an error if image is null", (done) => {
         Recipe.create({ name: "Milanesa a la napolitana" })
           .then(() => done(new Error("It requires a valid image")))
+          // Cuando finaliza con done() significa que la prueba fue exitosa
           .catch(() => done());
       });
       it("should work when it is a valid image", () => {

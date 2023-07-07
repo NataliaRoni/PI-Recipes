@@ -5,6 +5,8 @@
 
 .img {
   padding-top: 30px;
+  max-width: 100%;
+  height: auto;
 }
 
 .button {

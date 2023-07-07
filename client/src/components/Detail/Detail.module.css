@@ -59,6 +59,7 @@
 
 .left img {
   border-radius: 100px;
+  width: 300px;
 }
 
 .right p {
@@ -96,4 +97,10 @@ ul {
   width: 250px;
   height: 250px;
   margin-top: 170px;
+}
+
+@media screen and (max-width: 768px) {
+  .containerInfo {
+    margin: 20px 20px;
+  }
 }

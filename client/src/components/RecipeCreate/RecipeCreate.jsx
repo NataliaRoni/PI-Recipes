@@ -11,6 +11,8 @@ function validation(input) {
   let errors = {};
   if (!input.name) {
     errors.name = "Add a name to your recipe";
+  } else if (input.name.length > 50) {
+    errors.name = "Name must have fewer than 50 characters";
   }
   if (!input.summary) {
     errors.summary = "Add a summary to your recipe";
@@ -41,6 +43,8 @@ export default function RecipeCreate() {
   // Toma el estado global recipes del reducer:
   const recipes = useSelector((state) => state.recipes);
 
+  const [errorInput, setErrorInput] = useState(false);
+
   // Se crea un estado que guarde lo que recibe en el input:
   const [input, setInput] = useState({
     name: "",
@@ -65,6 +69,7 @@ export default function RecipeCreate() {
   function handleChange(e) {
     e.preventDefault();
     setInput({ ...input, [e.target.name]: e.target.value });
+    setErrorInput({ ...input, [e.target.name]: true });
     setErrors(
       validation({
         ...input,
@@ -80,6 +85,7 @@ export default function RecipeCreate() {
       ? input.diets.filter((diet) => diet !== selectedDiet)
       : [...input.diets, selectedDiet];
     setInput({ ...input, diets: updatedDiets });
+    setErrorInput({ ...input, [e.target.name]: true });
     setErrors(validation({ ...input, diets: updatedDiets }));
   }
 
@@ -91,7 +97,7 @@ export default function RecipeCreate() {
       title: "Recipe created successfully!",
       icon: "success",
       button: "OK",
-      className: Styles["swal"],
+      className: Styles["button"],
     });
     setInput({
       name: "",
@@ -128,7 +134,9 @@ export default function RecipeCreate() {
             name="name"
             onChange={(e) => handleChange(e)}
           />
-          {errors.name && <p className={Styles.error}>{errors.name}</p>}
+          {errorInput.name && (
+            <span className={Styles.error}>{errors.name}</span>
+          )}
         </div>
         <div className={Styles.form}>
           <label>Image: </label>
@@ -141,13 +149,16 @@ export default function RecipeCreate() {
         </div>
         <div className={Styles.form}>
           <label>Summary: </label>
-          <input
+          <textarea
+            maxlength="1000"
             type="text"
             value={input.summary}
             name="summary"
             onChange={(e) => handleChange(e)}
           />
-          {errors.summary && <p className={Styles.error}>{errors.summary}</p>}
+          {errorInput.summary && (
+            <p className={Styles.error}>{errors.summary}</p>
+          )}
         </div>
         <div className={Styles.form}>
           <label>Health Score: </label>
@@ -157,19 +168,20 @@ export default function RecipeCreate() {
             name="healthScore"
             onChange={(e) => handleChange(e)}
           />
-          {errors.healthScore && (
+          {errorInput.healthScore && (
             <p className={Styles.error}>{errors.healthScore}</p>
           )}
         </div>
         <div className={Styles.form}>
           <label>Steps: </label>
           <textarea
+            maxlength="1000"
             type="text"
             value={input.steps}
             name="steps"
             onChange={(e) => handleChange(e)}
           />
-          {errors.steps && <p className={Styles.error}>{errors.steps}</p>}
+          {errorInput.steps && <p className={Styles.error}>{errors.steps}</p>}
         </div>
         <div className={Styles.checkbox}>
           <label className={Styles.labelCheck}>Diets: </label>
@@ -263,7 +275,7 @@ export default function RecipeCreate() {
             />
             Ketogenic
           </label>
-          {errors.diets && <p className={Styles.error1}>{errors.diets}</p>}
+          {errorInput.diets && <p className={Styles.error1}>{errors.diets}</p>}
         </div>
         <button
           className={Styles.submitButton}

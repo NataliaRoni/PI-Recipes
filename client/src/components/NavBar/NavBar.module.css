@@ -47,3 +47,15 @@
 .swal button {
   background-color: #023047;
 }
+
+@media screen and (max-width: 768px) {
+  .container {
+    margin-right: 50px;
+  }
+
+  .input {
+    width: 230px;
+    padding: 11px;
+    font-size: 12px;
+  }
+}

@@ -6,7 +6,7 @@ import Styles from "./NavBar.module.css";
 import search from "../../utils/images/lupa.png";
 import swal from "sweetalert";
 
-export default function NavBar() {
+export default function NavBar({ setCurrentPage }) {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
 
@@ -24,20 +24,22 @@ export default function NavBar() {
         title: "Enter a recipe name",
         icon: "error",
         button: "OK",
-        className: Styles["swal"],
+        className: Styles["sweet"],
       });
     } else {
+      dispatch(getRecipesByName(name)).then((n) => {
+        if (!n) {
+          swal({
+            title: "Recipe does not exist",
+            icon: "error",
+            button: "OK",
+            className: Styles["sweet"],
+          });
+        } else {
+          setCurrentPage(1);
+        }
+      });
     }
-    dispatch(getRecipesByName(name)).then((n) => {
-      if (!n) {
-        swal({
-          title: "Recipe does not exist",
-          icon: "error",
-          button: "OK",
-          className: Styles["swal"],
-        });
-      }
-    });
     setTimeout(() => {
       setName("");
     }, 2000);

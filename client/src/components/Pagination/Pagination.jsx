@@ -14,6 +14,19 @@ export default function Pagination({
   for (let i = 1; i <= allPages; i++) {
     pageNum.push(i);
   }
+
+  const mobilePageNum =
+    window.innerWidth <= 768
+      ? pageNum.filter(
+          (num) =>
+            num === currentPage ||
+            num === currentPage - 1 ||
+            num === currentPage + 1 ||
+            num === currentPage - 2 ||
+            num === currentPage + 2
+        )
+      : pageNum;
+
   return (
     <div className={Styles.container}>
       <button
@@ -24,16 +37,17 @@ export default function Pagination({
       </button>
       <nav>
         <ul>
-          {pageNum?.map((num) => (
-            <li key={num}>
-              <a
-                className={num === currentPage ? Styles.active : ""}
-                onClick={() => paginate(num)}
-              >
-                {num}
-              </a>
-            </li>
-          ))}
+          {mobilePageNum &&
+            mobilePageNum.map((num) => (
+              <li key={num}>
+                <a
+                  className={num === currentPage ? Styles.active : ""}
+                  onClick={() => paginate(num)}
+                >
+                  {num}
+                </a>
+              </li>
+            ))}
         </ul>
       </nav>
       <button

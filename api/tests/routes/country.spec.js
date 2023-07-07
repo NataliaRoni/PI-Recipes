@@ -26,8 +26,11 @@ describe("Recipe routes", () => {
 
 describe("Testeo de rutas", () => {
   it("GET /recipes/:id", async () => {
+    // Realiza una solicitud GET a la ruta "/recipes/999".
     const response = await request(app).get("/recipes/999");
+    //Espera que el status sea error 404 ya que la 999 no es un id valido
     expect(response.status).to.equal(404);
+    //Espera que responda con el mensaje "Recipe not found with that ID"
     expect(response.text).to.equal("Recipe not found with that ID");
   });
 });

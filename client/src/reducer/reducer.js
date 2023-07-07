@@ -45,11 +45,17 @@ function rootReducer(state = initialState, action) {
     case "FILTER_BY_DIETS":
       // La lógica del reducer siempre va antes del return
       // Se hace un filtro que traiga las recetas que contengan la dieta del filtro y se hace con allRecipes para que permita filtrar varias veces:
-      const allRecipes = state.recipes;
+      const allRecipes = state.allRecipes;
       const dietsFilter =
         action.payload === "all"
           ? allRecipes
-          : allRecipes.filter((e) => e.diets.some((d) => d === action.payload));
+          : allRecipes.filter((e) => {
+              if (!e.createdInDb) {
+                return e.diets.some((d) => d === action.payload);
+              } else {
+                return e.diets.some((d) => d.name === action.payload);
+              }
+            });
       return {
         ...state,
         allRecipes: dietsFilter,

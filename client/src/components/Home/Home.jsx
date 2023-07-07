@@ -8,7 +8,7 @@ import {
   orderByName,
   orderByHealthScore,
 } from "../../actions/actions";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import NavBar from "../NavBar/NavBar";
@@ -23,23 +23,8 @@ export default function Home() {
   const dispatch = useDispatch();
 
   // Es lo mismo que hacer mapstatetoprops para traer las recetas:
+  // useSelector sirve para traer el estado global del reducer:
   const allRecipes = useSelector((state) => state.allRecipes);
-
-  // Estado para traer las dietas:
-  const allDiets = useSelector((state) => state.diets);
-
-  // Estado para setear el orden cuando se haga el filtro:
-  const [order, setOrder] = useState("");
-
-  // Estado para resetear los filtros:
-  const [selectedValues, setSelectedValues] = useState({
-    filterByDiets: "all",
-    filterMyRecipes: "all",
-    orderByHealthScore: "all",
-    orderByName: "all",
-  });
-
-  const [loading, setLoading] = useState(null);
 
   //* PAGINADO
 
@@ -62,15 +47,16 @@ export default function Home() {
   // Setear el número de la página actual en el número que yo le de click:
   const paginate = (pageNum) => {
     setCurrentPage(pageNum);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   //* DESPACHAR RECETAS
 
   useEffect(() => {
-    dispatch(getRecipes()).then((r) => {
-      setLoading(r);
-    });
-  }, [dispatch]); //En [] se ponen las dependencias que se necesitan antes de hacer el useEffect
+    if (!allRecipes || allRecipes.length === 0) {
+      dispatch(getRecipes());
+    }
+  }, [dispatch, allRecipes]); //En [] se ponen las dependencias que se necesitan antes de hacer el useEffect
 
   //* RECARGAR RECETAS
 
@@ -84,41 +70,48 @@ export default function Home() {
       orderByHealthScore: "all",
       orderByName: "all",
     }));
+    setCurrentPage(1);
   }
 
   //* FILTROS
 
+  // Estado para setear los filtros:
+  const [selectedValues, setSelectedValues] = useState({
+    filterByDiets: "all",
+    filterMyRecipes: "all",
+    orderByHealthScore: "all",
+    orderByName: "all",
+  });
+
   function handleFilterByDiets(e) {
+    // Evita que se realice una acción de envío o recarga de la página cuando se selecciona una opción en el filtro:
+    e.preventDefault();
     //Despacha a la action el valor del payload dependiendo de cada option.
     dispatch(filterByDiets(e.target.value));
+    setSelectedValues({
+      filterByDiets: e.target.value,
+    });
     //Cuando hago el ordenamiento que se setee en la página 1
     setCurrentPage(1);
-    setSelectedValues((prevState) => ({
-      ...prevState,
-      filterByDiets: e.target.value,
-    }));
   }
 
   function handleFilterMyRecipes(e) {
+    e.preventDefault();
     dispatch(filterMyRecipes(e.target.value));
     //Cuando hago el ordenamiento que se setee en la página 1
-    setSelectedValues((prevState) => ({
-      ...prevState,
-      filterMyRecipes: e.target.value,
-    }));
+    setSelectedValues({ filterMyRecipes: e.target.value });
     setCurrentPage(1);
   }
 
   function handleOrderByName(e) {
+    e.preventDefault();
     dispatch(orderByName(e.target.value));
+    //Seteo el ordenamiento:
+    setSelectedValues({
+      orderByName: e.target.value,
+    });
     //Cuando hago el ordenamiento que se setee en la página 1
     setCurrentPage(1);
-    //Seteo el ordenamiento:
-    setOrder(`Order ${e.target.value}`);
-    setSelectedValues((prevState) => ({
-      ...prevState,
-      orderByName: e.target.value,
-    }));
   }
 
   function handleOrderByHealth(e) {
@@ -126,18 +119,16 @@ export default function Home() {
     dispatch(orderByHealthScore(e.target.value));
     //Cuando hago el ordenamiento que se setee en la página 1
     setCurrentPage(1);
-    setOrder(`Order ${e.target.value}`);
-    setSelectedValues((prevState) => ({
-      ...prevState,
+    setSelectedValues({
       orderByHealthScore: e.target.value,
-    }));
+    });
   }
 
   //* RENDERIZADO
 
   return (
     <div>
-      {loading === null ? (
+      {!allRecipes || allRecipes.length === 0 ? (
         <div>
           <img className={Styles.imgLoading} src={loadingImg} alt="Loading" />
         </div>
@@ -145,7 +136,11 @@ export default function Home() {
         <div>
           <div className={Styles.container}>
             <img className={Styles.img} src={logo} alt="logo" />
-            <NavBar className={Styles.NavBar} />
+            <NavBar
+              className={Styles.NavBar}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
             <Link to="/recipe">
               <button className={Styles.create}>Create recipe</button>
             </Link>
@@ -210,12 +205,6 @@ export default function Home() {
               <option value="Z-A">Z-A</option>
             </select>
           </div>
-          <Pagination
-            recipesPerPage={recipesPerPage}
-            allRecipes={allRecipes.length}
-            paginate={paginate}
-            currentPage={currentPage}
-          />
           <div className={Styles.containerCard}>
             {currentRecipes?.map((r) => {
               return (
@@ -236,6 +225,12 @@ export default function Home() {
               );
             })}
           </div>
+          <Pagination
+            recipesPerPage={recipesPerPage}
+            allRecipes={allRecipes.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
         </div>
       )}
     </div>

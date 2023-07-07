@@ -11,10 +11,10 @@ import whole from "../../utils/images/whole.png";
 import primal from "../../utils/images/primal.png";
 import paleo from "../../utils/images/paleo.png";
 import keto from "../../utils/images/keto.png";
-import noimage from "../../utils/images/noimage.png";
 import { deleteRecipe } from "../../actions/actions";
 import { useDispatch } from "react-redux";
 import close from "../../utils/images/equis.png";
+import swal from "sweetalert";
 
 export default function Card({
   id,
@@ -116,6 +116,12 @@ export default function Card({
   const handleDelete = (id) => {
     // Llama a la acción deleteRecipe pasando el id de la receta
     dispatch(deleteRecipe(id));
+    swal({
+      title: "Recipe deleted successfully",
+      icon: "success",
+      button: "OK",
+      className: Styles["sweet"],
+    });
   };
 
   const deleteButton = () => {

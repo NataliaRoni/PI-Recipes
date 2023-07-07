@@ -8,6 +8,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 20px;
 }
 
 .img {
@@ -92,6 +93,8 @@
   border-radius: 4px;
   background-color: #fff;
   color: #023047;
+  max-width: 180px;
+  width: 100%;
 }
 
 .containerCard {
@@ -114,4 +117,70 @@
   width: 250px;
   height: 250px;
   margin-top: 170px;
+}
+
+@media screen and (max-width: 768px) {
+  /* Estilos para pantallas de hasta 768px de ancho */
+  .containerCard > div {
+    flex: 0 48%; /* Reducimos el tamaño de las tarjetas en pantallas pequeñas */
+  }
+  .container {
+    flex-direction: column;
+    align-items: center;
+    padding: 0 10px; /* Reducimos el espaciado a los lados del contenedor */
+  }
+
+  .img {
+    width: 140px; /* Reducimos el tamaño de la imagen */
+    height: 140px; /* Reducimos el tamaño de la imagen */
+    align-self: center;
+    margin-top: 10px; /* Ajustamos el margen superior */
+    margin-bottom: 10px; /* Ajustamos el margen inferior */
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+
+  .NavBar {
+    justify-content: space-between;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .create {
+    margin-top: 15px;
+    font-size: 13px; /* Reducimos el tamaño de la fuente */
+    padding: 10px 10px; /* Reducimos el padding del botón */
+  }
+
+  .logout {
+    position: relative;
+    bottom: 88px;
+    left: 186px;
+    font-size: 10px; /* Reducimos el tamaño de la fuente */
+    padding: 7px 10px; /* Reducimos el padding del botón */
+  }
+  .filterContainer {
+    margin-top: 0px;
+    margin-right: 10px;
+    margin-left: 10px;
+  }
+
+  .filterButton {
+    padding: 3px 10px;
+    font-size: 12px;
+  }
+
+  .filterSelect {
+    font-size: 12px;
+    padding: 9px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  /* Estilos para pantallas de hasta 576px de ancho */
+  .containerCard > div {
+    flex: 0 0 100%; /* Hacemos que las tarjetas ocupen todo el ancho en pantallas muy pequeñas */
+    margin-left: 50px; /* Eliminamos el margen izquierdo */
+    margin-right: 50px; /* Eliminamos el margen derecho */
+  }
 }

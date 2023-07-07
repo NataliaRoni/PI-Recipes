@@ -55,15 +55,15 @@
 
 .error {
   color: red;
-  font-size: 12px;
-  margin-top: 2px;
+  font-size: 11px;
+  margin-top: 1px;
 }
 
 .error1 {
   color: red;
-  font-size: 12px;
-  margin-top: 2px;
-  margin-left: 170px;
+  font-size: 11px;
+  margin-top: 1px;
+  margin-left: 180px;
 }
 
 .checkbox {
@@ -121,6 +121,36 @@
   transform: scale(1.1);
 }
 
-.swal button {
-  background-color: #023047;
+@media screen and (max-width: 768px) {
+  .container {
+    margin: 10px 10px;
+    width: 400px;
+    height: 680px;
+  }
+
+  .backButton {
+    right: 340px;
+    top: 70px;
+  }
+
+  .error {
+    font-size: 9px;
+  }
+
+  .error1 {
+    font-size: 9px;
+    margin-left: 0px;
+  }
+
+  .form {
+    font-size: 12px;
+  }
+
+  .title {
+    font-size: 18px;
+  }
+
+  .checkbox label {
+    font-size: 11px;
+  }
 }

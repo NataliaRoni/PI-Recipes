@@ -14,7 +14,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
       },
       name: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(50),
         allowNull: false,
       },
       image: {
@@ -22,7 +22,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       summary: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: false,
       },
       healthScore: {
@@ -30,7 +30,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       steps: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(1000),
         allowNull: false,
       },
       createdInDb: {
