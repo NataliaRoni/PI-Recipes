@@ -30,7 +30,10 @@ export default function Home() {
 
   //Crear estados locales:
   // Para setear la página actual:
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const savedPage = parseInt(localStorage.getItem("currentPage")) || 1;
+    return savedPage;
+  });
 
   //Para setear el número de recetas que aparecen por página:
   const [recipesPerPage, setRecipesPerPage] = useState(9);
@@ -49,6 +52,10 @@ export default function Home() {
     setCurrentPage(pageNum);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage);
+  }, [currentPage]);
 
   //* DESPACHAR RECETAS
 
