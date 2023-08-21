@@ -1,4 +1,4 @@
-# Recipe App 🚀
+# Recipes App 🚀
 
 Welcome to the Repository of my Individual Project at Henry! This application allows users to explore, search, filter, sort, create, and delete recipes. Discover new recipes and share your own creations!
 
